@@ -1,0 +1,13 @@
+{
+    "name": "alexclei/qrcode",
+    "description": "app qrcode",
+    "authors": [
+        {
+            "name": "Alex Rodrigues",
+            "email": "alexcleiton16@gmail.com"
+        }
+    ],
+    "require": {
+        "endroid/qr-code": "^2.5"
+    }
+}
