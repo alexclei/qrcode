@@ -6,11 +6,11 @@
 </head>
 <body>
 	<form action="q.php" method="post">
-		<input type="text" name="name" placeholder="Nome">
-		<br>
 		<input type="text" name="email" placeholder="Email">
 		<br>
-		<input type="text" name="date" placeholder="Data">
+		<input type="password" name="pass" placeholder="Senha">
+		<br>
+		<input type="text" name="text" placeholder="Digite Algo">
 		<br>
 		<input type="submit">
 	</form>

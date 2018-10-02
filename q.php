@@ -3,34 +3,26 @@
 
 	use Respect\Validation\Validator as v;
 	use Endroid\QrCode\QrCode;
-
-	$qrCode = new QrCode($_POST["name"]);
-	header('Content-Type: '.$qrCode->getContentType());
-	echo $qrCode->writeString();
-
-	$n = v::stringType()->validate($_POST["name"]);
-	$e = v::email()->validate($_POST["email"]);
-	$d = v::date('Y-m-d')->validate($_POST["date"]);
-
-	if ($n) {
-		echo 'Nome valido<br>';
-	}
-	else
-	{
-		echo 'Nome invalido<br>';
-	}
-	if ($e) {
-		echo 'Email valido<br>';
-	}
-	else
-	{
-		echo 'Email invalido<br>';
-	}
-	if ($d) {
-		echo 'Data valido<br>';
-	}
-	else
-	{
-		echo 'Data invalido<br>';
-	}
 	
+	if(!v::email()->validate($_POST["email"])){
+		header('Location:index.php');	
+	}
+	$qrCode = new QrCode($_POST["text"]);
+	$qrCode->writeFile(__DIR__.'/qrcode.png');
+	// Create the Transport
+	$transport = (new Swift_SmtpTransport('smtp.gmail.com', 587, 'tls'))
+		->setUsername('email')
+		->setPassword($_POST["pass"]);
+
+	// Create the Mailer using your created Transport
+	$mailer = new Swift_Mailer($transport);
+		
+	// Create a message
+	$message = (new Swift_Message('email teste'))
+		->setFrom(['email' => 'Alex Rodrigues'])
+		->setTo([$_POST["email"]])
+		->setBody("b")
+		->attach(Swift_Attachment::fromPath('qrcode.png'));
+	// Send the message
+	$result = $mailer->send($message);
+	echo "Atividade Concluida!";
